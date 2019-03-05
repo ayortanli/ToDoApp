@@ -16,15 +16,26 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Todo InsertTodo(String description) {
+    public Todo insertTodo(String description) {
         Todo todo = new Todo(description);
         todo = repository.insert(todo);
         return todo;
     }
 
     @Override
-    public void deleteTodo(Todo todo) {
-        repository.delete(todo.getId());
+    public void deleteTodo(Long id) {
+        Todo todo = repository.find(id);
+        if(todo != null)
+            repository.delete(id);
+    }
+
+    @Override
+    public Todo updateTodo(Long id, String description) {
+        Todo todo = repository.find(id);
+        if(todo != null) {
+            repository.update(id, description);
+        }
+        return todo;
     }
 
     @Override

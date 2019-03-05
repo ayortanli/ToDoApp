@@ -13,8 +13,7 @@ public class ToDoRepositoryInMemoryTest {
         Todo todo = repo.insert(new Todo("Simple Todo"));
         Assertions.assertEquals(1, repo.findAll().size(), "One todo should be in repository");
         Assertions.assertEquals(todo, repo.find(todo.getId()),  "Todo obj should be in repository");
-        todo.setDescription("Test task");
-        Todo updatedTodo = repo.update(todo);
+        Todo updatedTodo = repo.update(todo.getId(), "Test task");
         Assertions.assertEquals("Test task", repo.find(todo.getId()).getDescription(), "Todo should be updated");
         repo.delete(todo.getId());
         Assertions.assertNull(repo.find(todo.getId()),  "Todo should not be in repository");

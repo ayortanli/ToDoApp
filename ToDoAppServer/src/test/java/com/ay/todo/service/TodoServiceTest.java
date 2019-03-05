@@ -18,7 +18,7 @@ public class TodoServiceTest {
         Mockito.when(repo.insert(Matchers.any(Todo.class)))
                 .thenAnswer(invocation -> invocation.getArguments()[0]);
         TodoService service = new TodoServiceImpl(repo);
-        Todo todo = service.InsertTodo("Test task");
+        Todo todo = service.insertTodo("Test task");
         Assertions.assertEquals("Test task", todo.getDescription(), "Todo should created and persisted");
     }
 
@@ -43,11 +43,23 @@ public class TodoServiceTest {
     @Test
     public void testDeleteTodo(){
         ToDoRepository repo = Mockito.mock(ToDoRepository.class);
-        TodoService service = new TodoServiceImpl(repo);
         Todo todo = new Todo("test");
         todo.setId(1l);
-        service.deleteTodo(todo);
+        Mockito.when(repo.find(1l)).thenReturn(todo);
+        TodoService service = new TodoServiceImpl(repo);
+        service.deleteTodo(1l);
         Mockito.verify(repo).delete(1l);
+    }
+
+    @Test
+    public void testUpdateTodo(){
+        ToDoRepository repo = Mockito.mock(ToDoRepository.class);
+        Todo todo = new Todo("test");
+        todo.setId(1l);
+        Mockito.when(repo.find(1l)).thenReturn(todo);
+        TodoService service = new TodoServiceImpl(repo);
+        service.updateTodo(1l, "updated test");
+        Mockito.verify(repo).update(1l, "updated test");
     }
 
 }

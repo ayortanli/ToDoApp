@@ -40,10 +40,10 @@ public class ToDoRepositoryInMemory implements ToDoRepository {
     }
 
     @Override
-    public Todo update(Todo todo) {
-        Todo todoFromRepo = find(todo.getId());
+    public Todo update(Long id, String description) {
+        Todo todoFromRepo = find(id);
         if(todoFromRepo != null){
-            todoFromRepo.setDescription(todo.getDescription());
+            todoFromRepo.setDescription(description);
         }
         return null;
     }
