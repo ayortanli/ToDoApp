@@ -8,6 +8,7 @@ import java.util.List;
 
 public class TodoServiceImpl implements TodoService {
 
+    @Autowired
     private ToDoRepository repository;
 
     @Autowired

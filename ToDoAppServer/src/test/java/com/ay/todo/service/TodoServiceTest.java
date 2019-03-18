@@ -2,8 +2,8 @@ package com.ay.todo.service;
 
 import com.ay.todo.Todo;
 import com.ay.todo.repository.ToDoRepository;
-import org.junit.gen5.api.Assertions;
-import org.junit.gen5.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 
@@ -19,7 +19,7 @@ public class TodoServiceTest {
                 .thenAnswer(invocation -> invocation.getArguments()[0]);
         TodoService service = new TodoServiceImpl(repo);
         Todo todo = service.insertTodo("Test task");
-        Assertions.assertEquals("Test task", todo.getDescription(), "Todo should created and persisted");
+        Assert.assertEquals("Todo should created and persisted", "Test task", todo.getDescription());
     }
 
     @Test

@@ -4,6 +4,8 @@ public class Todo {
     private Long id;
     private String description;
 
+    public Todo(){}
+
     public Todo(String description) {
         this.description = description;
     }
