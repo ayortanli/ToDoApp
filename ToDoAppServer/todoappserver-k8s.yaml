@@ -1,0 +1,31 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: todoappserver
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: todoappserver
+    spec:
+      containers:
+        - name: todoappserver
+          image: ayortanli/todoappserver:1.0
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todoappserver
+  labels:
+    app: todoappserver
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: todoappserver
+  type: NodePort

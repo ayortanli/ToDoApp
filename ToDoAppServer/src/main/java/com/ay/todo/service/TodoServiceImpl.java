@@ -2,11 +2,16 @@ package com.ay.todo.service;
 
 import com.ay.todo.Todo;
 import com.ay.todo.repository.ToDoRepository;
+import com.ay.todo.repository.ToDoRepositoryInMemory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class TodoServiceImpl implements TodoService {
+
+    Logger logger = LoggerFactory.getLogger(TodoServiceImpl.class);
 
     @Autowired
     private ToDoRepository repository;
