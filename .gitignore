@@ -1,5 +1,7 @@
 ToDoAppServer/Todo.txt
 ToDoAppServer/ToDoAppServer.iml
-ToDoAppServer/.idea/compiler.xml
 ToDoAppServer/.idea/
 ToDoAppServer/target/
+ToDoAppClient/Todo.txt
+ToDoAppClient/ToDoAppClient.iml
+ToDoAppClient/.idea/
