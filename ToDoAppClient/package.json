@@ -22,10 +22,11 @@
     "Npm"
   ],
   "dependencies": {
-    "react": "^16.8.6",
     "bootstrap": "^4.3.1",
     "jquery": "^3.4.1",
-    "popper.js": "^1.15.0"
+    "popper.js": "^1.15.0",
+    "react": "^16.8.6",
+    "reactstrap": "^8.0.1"
   },
   "devDependencies": {
     "react-dom": "^16.8.6",

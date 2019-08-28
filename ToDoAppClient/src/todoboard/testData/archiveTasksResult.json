@@ -1,0 +1,18 @@
+{
+  "errorCode": 0,
+  "errorMessage": null,
+  "resultObject": [
+    {
+      "taskId": 3,
+      "taskTitle": "Watch the 'Captain America' Movie",
+      "taskDescription": "Watch the 'Captain America Movie' at Cinema.",
+      "taskState": "ARCHIVED"
+    },
+    {
+      "taskId": 4,
+      "taskTitle": "Plan Holiday",
+      "taskDescription": "Search and make a reservation for holiday in Antalya.",
+      "taskState": "ARCHIVED"
+    }
+  ]
+}
