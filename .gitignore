@@ -6,3 +6,5 @@ ToDoAppClient/Todo.txt
 ToDoAppClient/ToDoAppClient.iml
 ToDoAppClient/.idea/
 ToDoAppClient/node_modules/
+ToDoAppClient/dist/
+ToDoAppClient/package-lock.json
