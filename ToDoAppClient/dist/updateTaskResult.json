@@ -1,0 +1,10 @@
+{
+  "errorCode": 0,
+  "errorMessage": null,
+  "resultObject": {
+    "taskId": 10,
+    "taskTitle": "Read 'Ince Memed' (Updated)",
+    "taskDescription": "Read the book 'Ince Memed' from Yasar Kemal (Updated).",
+    "taskState": "IN_PROGRESS"
+  }
+}

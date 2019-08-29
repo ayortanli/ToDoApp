@@ -1,10 +1,11 @@
+import { hot } from 'react-hot-loader/root';
 import React from "react";
 import TaskSection from "./TaskSection";
 import TaskController from "./TaskController"
 import { Jumbotron, Container } from "reactstrap";
 import TaskInsert from "./TaskInsert";
 
-export default class TodoBoard extends React.Component {
+const TodoBoardHot = class TodoBoard extends React.Component {
 
     constructor(props) {
         super(props);
@@ -212,3 +213,5 @@ export default class TodoBoard extends React.Component {
         );
     }
 }
+
+export default hot(TodoBoardHot);
