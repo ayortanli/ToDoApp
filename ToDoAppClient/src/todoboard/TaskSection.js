@@ -63,13 +63,23 @@ export default class TaskSection extends React.Component {
         this.props.onUpdate(task);
     }
 
+    allowDrop(event){
+        event.preventDefault();
+    }
+
+    onDrop(event) {
+        event.preventDefault();
+        let taskId = parseInt(event.dataTransfer.getData("taskId"));
+        this.props.onUpdateState(taskId, this.props.sectionName);
+    }
+
     render(){
         return (
-            <Jumbotron style={{minHeight: '82vh'}} className={`text-center px-2 pb-1 pt-0 ${ this.props.className }`}>
+            <Jumbotron onDrop={(event)=>this.onDrop(event)} onDragOver={(event)=>this.allowDrop(event)} style={{minHeight: '82vh'}} className={`text-center px-2 pb-1 pt-0 ${ this.props.className }`}>
                 {this.renderBoardHeader()}
-                <span>
+                <div>
                     {this.renderTasks()}
-                </span>
+                </div>
             </Jumbotron>
         );
     }

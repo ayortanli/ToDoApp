@@ -44,7 +44,7 @@ export default class Task extends React.Component {
 
     render() {
         return (
-            <Card className="mb-3">
+            <Card draggable="true" onDragStart={(event)=>this.dragStart(event)} className="mb-3">
                 {this.renderHeader()}
                 <CardBody>
                     <CardText>{this.props.data.taskDescription}</CardText>
@@ -55,5 +55,9 @@ export default class Task extends React.Component {
                 </CardBody>
             </Card>
         );
+    }
+
+    dragStart(event){
+        event.dataTransfer.setData("taskId", this.props.data.taskId);
     }
 }

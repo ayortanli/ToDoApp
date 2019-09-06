@@ -55,13 +55,6 @@ const TodoBoardHot = class TodoBoard extends React.Component {
             this.taskController.archiveCompletedTasks(this.state.doneList, (resultData)=>this.onArchiveSuccess(resultData));
     }
 
-    onNextState(task){
-        this.onUpdateState(task, 'DONE');
-    }
-
-    onPrevState(task){
-        this.onUpdateState(task, 'TODO');
-    }
 
     onUpdateClicked(task) {
         this.updatedTask = task;
@@ -70,12 +63,14 @@ const TodoBoardHot = class TodoBoard extends React.Component {
         });
     }
 
-    onUpdateState(task, finalState){
-        let taskState = 'IN_PROGRESS';
-        if(task.taskState===taskState){
-            taskState = finalState;
-        }
-        this.taskController.updateTaskState(task.taskId, taskState, (resultData)=>this.onUpdateSuccess(task, resultData));
+    onUpdateStateByDrag(taskId, newState){
+        let task = this.getTaskOnBoard(taskId);
+        if(task.taskState !== newState)
+            this.onUpdateState(task, newState);
+    }
+
+    onUpdateState(task, newState){
+        this.taskController.updateTaskState(task.taskId, newState, (resultData)=>this.onUpdateSuccess(task, resultData));
     }
 
     onDeleteSuccess(taskId, resultData){
@@ -151,6 +146,19 @@ const TodoBoardHot = class TodoBoard extends React.Component {
         return -1;
     }
 
+    getTaskOnBoard(taskId){
+        let itemIndex = this.getItemIndexInList(taskId,this.state.todoList);
+        if(itemIndex!==-1)
+            return this.state.todoList[itemIndex];
+        itemIndex = this.getItemIndexInList(taskId,this.state.inProgressList);
+        if(itemIndex!==-1)
+            return this.state.inProgressList[itemIndex];
+        itemIndex = this.getItemIndexInList(taskId,this.state.doneList);
+        if(itemIndex!==-1)
+            return this.state.doneList[itemIndex];
+        return null;
+    }
+
     onRetrieveTasksSuccess(resultData){
         let todoItems = [];
         let inProgressItems = [];
@@ -191,18 +199,21 @@ const TodoBoardHot = class TodoBoard extends React.Component {
                                 <TaskSection onDelete={(taskId)=>this.onDelete(taskId)}
                                              onInsert={()=>this.onInsertClicked()}
                                              onUpdate={(task)=>this.onUpdateClicked(task)}
-                                             onNextState={(task)=>this.onNextState(task)}
+                                             onUpdateState={(taskId, newState)=>this.onUpdateStateByDrag(taskId, newState)}
+                                             onNextState={(task)=>this.onUpdateState(task, 'IN_PROGRESS')}
                                              taskList={this.state.todoList} sectionName="To Do" className="bg-info"/>
                             </div>
                             <div className="col-sm">
                                 <TaskSection onUpdate={(task)=>this.onUpdateClicked(task)}
-                                             onNextState={(task)=>this.onNextState(task)}
-                                             onPrevState={(task)=>this.onPrevState(task)}
+                                             onUpdateState={(taskId, newState)=>this.onUpdateStateByDrag(taskId, newState)}
+                                             onNextState={(task)=>this.onUpdateState(task, 'DONE')}
+                                             onPrevState={(task)=>this.onUpdateState(task, 'TODO')}
                                              taskList={this.state.inProgressList} sectionName="In Progress" className="bg-warning"/>
                             </div>
                             <div className="col-sm">
                                 <TaskSection onUpdate={(task)=>this.onUpdateClicked(task)}
-                                             onPrevState={(task)=>this.onPrevState(task)}
+                                             onUpdateState={(taskId, newState)=>this.onUpdateStateByDrag(taskId, newState)}
+                                             onPrevState={(task)=>this.onUpdateState(task, 'IN_PROGRESS')}
                                              onArchive={()=>this.onArchive()}
                                              taskList={this.state.doneList} sectionName="Done" className="bg-primary"/>
                             </div>
