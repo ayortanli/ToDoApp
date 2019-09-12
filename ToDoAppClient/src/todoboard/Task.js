@@ -3,6 +3,9 @@ import { Card, CardHeader, CardText, CardBody, CardLink, Button } from 'reactstr
 
 export default class Task extends React.Component {
 
+    dragStart(event){
+        event.dataTransfer.setData("taskId", this.props.data.taskId);
+    }
 
     renderHeader(){
         return  <CardHeader className="row pb-1">
@@ -55,9 +58,5 @@ export default class Task extends React.Component {
                 </CardBody>
             </Card>
         );
-    }
-
-    dragStart(event){
-        event.dataTransfer.setData("taskId", this.props.data.taskId);
     }
 }

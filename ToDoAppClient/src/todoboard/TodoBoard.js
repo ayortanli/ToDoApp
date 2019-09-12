@@ -77,8 +77,8 @@ const TodoBoardHot = class TodoBoard extends React.Component {
         let todoList = this.state.todoList;
         todoList.splice(this.getItemIndexInList(taskId,todoList),1);
         this.setState({
-                todoList:todoList
-            });
+            todoList:todoList
+        });
     }
 
     onUpdateSuccess(task, updatedTask){

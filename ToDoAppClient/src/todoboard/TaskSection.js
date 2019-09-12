@@ -17,34 +17,26 @@ export default class TaskSection extends React.Component {
         return tasks;
     }
 
-    renderBoardHeader(){
-        if(this.props.onArchive!==undefined){
-            return  <CardHeader className="h4 row">
-                        <div className="col-2"></div>
-                        <div className="col-8">
-                            {this.props.sectionName}
-                        </div>
-                        <div className="col-2 px-0">
-                            <Button color="secondary" onClick={()=>this.props.onArchive()}
-                                    className="float-right">Archive</Button>
-                        </div>
-                    </CardHeader>;
+    renderSectionButton(){
+        if(this.props.onArchive!==undefined) {
+            return <Button color="secondary" onClick={()=>this.props.onArchive()}
+                           className="float-right">Archive</Button>;
         } else if(this.props.onInsert!==undefined){
-            return  <CardHeader className="h4 row">
-                        <div className="col-2"></div>
-                        <div className="col-8">
-                            {this.props.sectionName}
-                        </div>
-                        <div className="col-2 px-0">
-                            <Button color="secondary"  onClick={()=>this.props.onInsert()}
-                                    className="float-right">Add</Button>
-                        </div>
-                    </CardHeader>;
-        } else {
-            return  <CardHeader className="h4">
-                        {this.props.sectionName}
-                    </CardHeader>;
+            return <Button color="secondary"  onClick={()=>this.props.onInsert()}
+                           className="float-right">Add</Button>;
         }
+    }
+
+    renderBoardHeader(){
+        return  <CardHeader className="h4 row">
+                    <div className="col-2"></div>
+                    <div className="col-8">
+                        {this.props.sectionName}
+                    </div>
+                    <div className="col-2 px-0">
+                        {this.renderSectionButton()}
+                    </div>
+                </CardHeader>;
     }
 
     onDelete(taskId){
@@ -75,7 +67,10 @@ export default class TaskSection extends React.Component {
 
     render(){
         return (
-            <Jumbotron onDrop={(event)=>this.onDrop(event)} onDragOver={(event)=>this.allowDrop(event)} style={{minHeight: '82vh'}} className={`text-center px-2 pb-1 pt-0 ${ this.props.className }`}>
+            <Jumbotron onDrop={(event)=>this.onDrop(event)}
+                       onDragOver={(event)=>this.allowDrop(event)}
+                       style={{minHeight: '82vh'}}
+                       className={`text-center px-2 pb-1 pt-0 ${ this.props.className }`}>
                 {this.renderBoardHeader()}
                 <div>
                     {this.renderTasks()}
