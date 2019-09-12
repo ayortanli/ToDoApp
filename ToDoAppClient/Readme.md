@@ -1,6 +1,10 @@
 #Basic ToDo App Client
-React Based ToDo Application Client
-This application is implemented for using in Proof of Concept (POC) works. 
-It includes basic crud operations for simple ToDo task list.
 
-- Development environment is based on nodejs
+This application is implemented for using in Proof of Concept (POC) works. 
+It includes basic crud operations for simple ToDo task list. For now, server communication is ignored and simple mock json files are used as server response. These files are under testData folder and should be copied under 
+dist for mocking server responses.
+
+- Development environment is based on 
+    - nodejs for development runtime
+    - webpack for module bundling
+    - react for ui development
