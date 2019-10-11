@@ -1,9 +1,14 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todoappserver
+  labels:
+    app: todoappserver
 spec:
-  replicas: 1
+  replicas: 3
+  selector:
+    matchLabels:
+      app: todoappserver
   template:
     metadata:
       labels:
@@ -18,14 +23,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: todoappserver
+  name: todoappserver-svc
   labels:
     app: todoappserver
 spec:
+  selector:
+    app: todoappserver
   ports:
     - port: 80
       targetPort: 8080
       protocol: TCP
-  selector:
-    app: todoappserver
-  type: NodePort
+  type: ClusterIP
