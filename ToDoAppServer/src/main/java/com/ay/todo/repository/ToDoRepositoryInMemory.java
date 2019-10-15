@@ -1,7 +1,7 @@
 package com.ay.todo.repository;
 
+import com.ay.todo.TaskState;
 import com.ay.todo.Todo;
-import com.ay.todo.controller.TodoController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -24,7 +24,7 @@ public class ToDoRepositoryInMemory implements ToDoRepository {
 
     @Override
     public Todo insert(Todo todo) {
-        todo.setId(sequence);
+        todo.setTaskId(sequence);
         ++sequence;
         todoList.add(todo);
         return todo;
@@ -38,17 +38,8 @@ public class ToDoRepositoryInMemory implements ToDoRepository {
     @Override
     public Todo find(Long id) {
         for (Todo todo : todoList) {
-            if (todo.getId().equals(id))
+            if (todo.getTaskId().equals(id))
                 return todo;
-        }
-        return null;
-    }
-
-    @Override
-    public Todo update(Long id, String description) {
-        Todo todoFromRepo = find(id);
-        if(todoFromRepo != null){
-            todoFromRepo.setDescription(description);
         }
         return null;
     }
@@ -59,5 +50,37 @@ public class ToDoRepositoryInMemory implements ToDoRepository {
         if(todo!= null) {
             todoList.remove(todo);
         }
+    }
+
+    @Override
+    public Todo update(Long id, String title, String description) {
+        Todo todoFromRepo = find(id);
+        if(todoFromRepo != null){
+            todoFromRepo.setTaskDescription(description);
+            todoFromRepo.setTaskTitle(title);
+            return todoFromRepo;
+        }
+        return null;
+    }
+
+    @Override
+    public Todo updateState(long id, TaskState state) {
+        Todo todoFromRepo = find(id);
+        if(todoFromRepo != null){
+            todoFromRepo.setTaskState(state);
+            return todoFromRepo;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Todo> updateState(List<Long> ids, TaskState state) {
+        List<Todo> todoList = new ArrayList<>();
+        for (Long id : ids){
+            Todo todo = updateState(id, state);
+            if(todo!=null)
+                todoList.add(todo);
+        }
+        return todoList;
     }
 }

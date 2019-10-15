@@ -1,5 +1,6 @@
 package com.ay.todo.controller;
 
+import com.ay.todo.TaskState;
 import com.ay.todo.Todo;
 import com.ay.todo.service.TodoService;
 import org.slf4j.Logger;
@@ -15,9 +16,9 @@ public class TodoController {
 
     Logger logger = LoggerFactory.getLogger(TodoController.class);
 
-    @Autowired
     private TodoService service;
 
+    @Autowired
     public TodoController(TodoService service) {
         this.service = service;
     }
@@ -28,8 +29,8 @@ public class TodoController {
     }
 
     @PostMapping("")
-    public Todo insertNewTodo(@RequestBody String description) {
-        return service.insertTodo(description);
+    public Todo insertNewTodo(@RequestBody Todo todo) {
+        return service.insertTodo(todo.getTaskTitle(), todo.getTaskDescription());
     }
 
     @GetMapping("/{id}")
@@ -39,7 +40,8 @@ public class TodoController {
 
     @GetMapping("")
     public List<Todo> findAllTodo() {
-        return service.findAll();
+        List<Todo> todoList = service.findAll();
+        return todoList;
     }
 
     @DeleteMapping("/{id}")
@@ -48,7 +50,21 @@ public class TodoController {
     }
 
     @PutMapping(value = "/{id}")
-    public Todo updateTodoDescription(@PathVariable("id") long id, @RequestBody Todo todo) {
-        return service.updateTodo(id, todo.getDescription());
+    public Todo updateTodo(@PathVariable("id") long id, @RequestBody Todo todo) {
+        return service.updateTodo(id, todo.getTaskTitle(), todo.getTaskDescription());
+    }
+
+    @PutMapping(value = "/state/{id}")
+    public Todo updateTodoState(@PathVariable("id") long id, @RequestBody String state) {
+        TaskState taskState = TaskState.valueOf(state);
+        if(taskState!=null)
+            return service.updateTodoState(id, taskState);
+        //else validation error
+        return null;
+    }
+
+    @PutMapping(value = "/archive")
+    public List<Todo> archiveTodos(@RequestBody List<Long> todoIds) {
+        return service.archiveTodos(todoIds);
     }
 }

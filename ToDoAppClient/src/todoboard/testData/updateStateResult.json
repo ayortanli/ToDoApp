@@ -1,10 +1,6 @@
 {
-  "errorCode": 0,
-  "errorMessage": null,
-  "resultObject": {
-    "taskId": 1,
-    "taskTitle": "Read 'Ince Memed'",
-    "taskDescription": "Read the book 'Ince Memed' from Yasar Kemal.",
-    "taskState": "DONE"
-  }
+  "taskId": 1,
+  "taskTitle": "Read 'Ince Memed'",
+  "taskDescription": "Read the book 'Ince Memed' from Yasar Kemal.",
+  "taskState": "DONE"
 }

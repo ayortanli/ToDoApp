@@ -1,28 +1,49 @@
 package com.ay.todo;
 
 public class Todo {
-    private Long id;
-    private String description;
+    private Long taskId;
+    private String taskTitle;
+    private String taskDescription;
+    private TaskState taskState;
 
     public Todo(){}
 
-    public Todo(String description) {
-        this.description = description;
+    public Todo(String taskTitle, String description) {
+        this.taskTitle = taskTitle;
+        this.taskDescription = description;
+        this.taskState = TaskState.TODO;
     }
 
-    public Long getId() {
-        return id;
+    public Long getTaskId() {
+        return taskId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setTaskId(long taskId) {
+        this.taskId = taskId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTaskDescription(String taskDescription) {
+        this.taskDescription = taskDescription;
     }
 
-    public String getDescription() {
-        return this.description;
+    public String getTaskDescription() {
+        return this.taskDescription;
+    }
+
+    public String getTaskTitle() {
+        return taskTitle;
+    }
+
+    public void setTaskTitle(String taskTitle) {
+        this.taskTitle = taskTitle;
+    }
+
+    public TaskState getTaskState() {
+        return taskState;
+    }
+
+    public void setTaskState(TaskState taskState) {
+        this.taskState = taskState;
     }
 }
+

@@ -1,8 +1,8 @@
 package com.ay.todo.service;
 
+import com.ay.todo.TaskState;
 import com.ay.todo.Todo;
 import com.ay.todo.repository.ToDoRepository;
-import com.ay.todo.repository.ToDoRepositoryInMemory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ public class TodoServiceImpl implements TodoService {
 
     Logger logger = LoggerFactory.getLogger(TodoServiceImpl.class);
 
-    @Autowired
     private ToDoRepository repository;
 
     @Autowired
@@ -22,8 +21,8 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Todo insertTodo(String description) {
-        Todo todo = new Todo(description);
+    public Todo insertTodo(String title, String description) {
+        Todo todo = new Todo(title, description);
         todo = repository.insert(todo);
         return todo;
     }
@@ -36,12 +35,26 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Todo updateTodo(Long id, String description) {
+    public Todo updateTodo(Long id, String title, String description) {
         Todo todo = repository.find(id);
         if(todo != null) {
-            repository.update(id, description);
+            repository.update(id, title, description);
         }
         return todo;
+    }
+
+    @Override
+    public Todo updateTodoState(long id, TaskState state) {
+        Todo todo = repository.find(id);
+        if(todo != null) {
+            repository.updateState(id, state);
+        }
+        return todo;
+    }
+
+    @Override
+    public List<Todo> archiveTodos(List<Long> todoIds) {
+        return repository.updateState(todoIds, TaskState.ARCHIVED);
     }
 
     @Override

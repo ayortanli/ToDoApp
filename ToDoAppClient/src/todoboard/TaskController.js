@@ -2,20 +2,12 @@ export default class TaskController {
 
     retrieveAllTasks(handleResult){
         let xhttp = this.createDefaultRequestObject("GET", "/tasks.json", handleResult);
-        xhttp.send("");
+        xhttp.send();
     }
 
     deleteTask(taskId, handleResult) {
         let xhttp = this.createDefaultRequestObject("GET", "./deleteResult.json", handleResult);
-        xhttp.send(taskId);
-    }
-
-    updateTaskState(taskId, newState, handleResult) {
-        let xhttp = this.createDefaultRequestObject("GET", "./updateStateResult.json", handleResult);
-        xhttp.send({
-            "taskId":taskId,
-            "newState":newState
-        });
+        xhttp.send();
     }
 
     createTask(taskTitle, taskDescription, handleResult) {
@@ -29,10 +21,14 @@ export default class TaskController {
     updateTask(taskId, taskTitle, taskDescription, handleResult) {
         let xhttp = this.createDefaultRequestObject("GET", "./updateTaskResult.json", handleResult);
         xhttp.send({
-            "taskId": taskId,
             "taskTitle":taskTitle,
             "taskDescription":taskDescription
         });
+    }
+
+    updateTaskState(taskId, newState, handleResult) {
+        let xhttp = this.createDefaultRequestObject("GET", "./updateStateResult.json", handleResult);
+        xhttp.send(newState);
     }
 
     archiveCompletedTasks(taskList, handleResult) {
@@ -49,12 +45,15 @@ export default class TaskController {
     }
 
     handleRemoteCall(xhttp, handleResult){
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            let result = JSON.parse(xhttp.response);
-            if(result.errorCode===0)
-                handleResult(result.resultObject);
-            else
-                alert("Error Code: "+ result.errorCode+ "\nError Message: "+result.errorMessage);
+        if (xhttp.readyState == 4) {
+            if(xhttp.status == 200) {
+                if(xhttp.responseText !== '')
+                    handleResult(JSON.parse(xhttp.response));
+                else
+                    handleResult();
+            } else {
+                alert("Error Code: HTTP(" + xhttp.status + ")\nError Message: " + xhttp.responseText);
+            }
         }
     }
 
