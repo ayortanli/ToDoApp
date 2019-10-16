@@ -1,9 +1,5 @@
 export default class TaskController {
 
-    constructor(){
-        this.host = "http://localhost:8090";
-    }
-
     retrieveAllTasks(handleResult){
         let xhttp = this.createDefaultRequestObject("GET", "/todos", handleResult);
         xhttp.send();
@@ -43,7 +39,7 @@ export default class TaskController {
     createDefaultRequestObject(method, url ,handleResult){
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = ()=>this.handleRemoteCall(xhttp, handleResult);
-        xhttp.open(method, this.host+url, true);
+        xhttp.open(method, process.env.SERVER_URL + url, true);
         xhttp.setRequestHeader("Content-Type", "application/json");
         return xhttp;
     }

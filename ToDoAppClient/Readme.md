@@ -8,3 +8,7 @@ dist for mocking server responses.
     - nodejs for development runtime
     - webpack for module bundling
     - react for ui development
+    
+- Key Points:
+    - As server url; process.env.SERVER_URL environment variable is used. If not defined 
+    default development server url is activated. (Which is given in webpack config file)
