@@ -1,46 +1,50 @@
 export default class TaskController {
 
+    constructor(){
+        this.host = "http://localhost:8090";
+    }
+
     retrieveAllTasks(handleResult){
-        let xhttp = this.createDefaultRequestObject("GET", "/tasks.json", handleResult);
+        let xhttp = this.createDefaultRequestObject("GET", "/todos", handleResult);
         xhttp.send();
     }
 
     deleteTask(taskId, handleResult) {
-        let xhttp = this.createDefaultRequestObject("GET", "./deleteResult.json", handleResult);
+        let xhttp = this.createDefaultRequestObject("DELETE", "/todos/"+taskId, handleResult);
         xhttp.send();
     }
 
     createTask(taskTitle, taskDescription, handleResult) {
-        let xhttp = this.createDefaultRequestObject("GET", "./createTaskResult.json", handleResult);
-        xhttp.send({
-            "taskTitle":taskTitle,
-            "taskDescription":taskDescription
-        });
+        let xhttp = this.createDefaultRequestObject("POST", "/todos", handleResult);
+        xhttp.send(JSON.stringify({
+                    "taskTitle":taskTitle,
+                    "taskDescription":taskDescription
+            }));
     }
 
     updateTask(taskId, taskTitle, taskDescription, handleResult) {
-        let xhttp = this.createDefaultRequestObject("GET", "./updateTaskResult.json", handleResult);
-        xhttp.send({
+        let xhttp = this.createDefaultRequestObject("PUT", "/todos/"+taskId, handleResult);
+        xhttp.send(JSON.stringify({
             "taskTitle":taskTitle,
             "taskDescription":taskDescription
-        });
+        }));
     }
 
     updateTaskState(taskId, newState, handleResult) {
-        let xhttp = this.createDefaultRequestObject("GET", "./updateStateResult.json", handleResult);
+        let xhttp = this.createDefaultRequestObject("PUT", "/todos/state/"+taskId, handleResult);
         xhttp.send(newState);
     }
 
     archiveCompletedTasks(taskList, handleResult) {
-        let xhttp = this.createDefaultRequestObject("GET", "./archiveTasksResult.json", handleResult);
-        xhttp.send(taskList);
+        let xhttp = this.createDefaultRequestObject("PUT", "/todos/archive", handleResult);
+        xhttp.send(JSON.stringify(taskList.map(task => task.taskId)));
     }
 
     createDefaultRequestObject(method, url ,handleResult){
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = ()=>this.handleRemoteCall(xhttp, handleResult);
-        xhttp.open(method, url, true);
-        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.open(method, this.host+url, true);
+        xhttp.setRequestHeader("Content-Type", "application/json");
         return xhttp;
     }
 

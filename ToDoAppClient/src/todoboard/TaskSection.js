@@ -19,7 +19,7 @@ export default class TaskSection extends React.Component {
 
     renderSectionButton(){
         if(this.props.onArchive!==undefined) {
-            return <Button color="secondary" onClick={()=>this.props.onArchive()}
+            return <Button color="secondary" onClick={()=>this.props.onArchive()} disabled={this.props.taskList.length===0}
                            className="float-right">Archive</Button>;
         } else if(this.props.onInsert!==undefined){
             return <Button color="secondary"  onClick={()=>this.props.onInsert()}
@@ -62,7 +62,7 @@ export default class TaskSection extends React.Component {
     onDrop(event) {
         event.preventDefault();
         let taskId = parseInt(event.dataTransfer.getData("taskId"));
-        this.props.onUpdateState(taskId, this.props.sectionName);
+        this.props.onUpdateState(taskId, this.props.sectionId);
     }
 
     render(){

@@ -201,21 +201,21 @@ const TodoBoardHot = class TodoBoard extends React.Component {
                                              onUpdate={(task)=>this.onUpdateClicked(task)}
                                              onUpdateState={(taskId, newState)=>this.onUpdateStateByDrag(taskId, newState)}
                                              onNextState={(task)=>this.onUpdateState(task, 'IN_PROGRESS')}
-                                             taskList={this.state.todoList} sectionName="To Do" className="bg-info"/>
+                                             taskList={this.state.todoList} sectionName="To Do" sectionId="TODO" className="bg-info"/>
                             </div>
                             <div className="col-sm">
                                 <TaskSection onUpdate={(task)=>this.onUpdateClicked(task)}
                                              onUpdateState={(taskId, newState)=>this.onUpdateStateByDrag(taskId, newState)}
                                              onNextState={(task)=>this.onUpdateState(task, 'DONE')}
                                              onPrevState={(task)=>this.onUpdateState(task, 'TODO')}
-                                             taskList={this.state.inProgressList} sectionName="In Progress" className="bg-warning"/>
+                                             taskList={this.state.inProgressList} sectionName="In Progress" sectionId="IN_PROGRESS"  className="bg-warning"/>
                             </div>
                             <div className="col-sm">
                                 <TaskSection onUpdate={(task)=>this.onUpdateClicked(task)}
                                              onUpdateState={(taskId, newState)=>this.onUpdateStateByDrag(taskId, newState)}
                                              onPrevState={(task)=>this.onUpdateState(task, 'IN_PROGRESS')}
                                              onArchive={()=>this.onArchive()}
-                                             taskList={this.state.doneList} sectionName="Done" className="bg-primary"/>
+                                             taskList={this.state.doneList} sectionName="Done" sectionId="DONE" className="bg-primary"/>
                             </div>
                         </div>
                     </Container>
