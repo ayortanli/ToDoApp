@@ -8,3 +8,5 @@ ToDoAppClient/.idea/
 ToDoAppClient/node_modules/
 ToDoAppClient/dist/
 ToDoAppClient/package-lock.json
+ToDoAppClientContainer/.idea/
+ToDoAppClientContainer/ToDoAppClientContainer.iml

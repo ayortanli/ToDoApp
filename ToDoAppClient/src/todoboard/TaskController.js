@@ -39,7 +39,7 @@ export default class TaskController {
     createDefaultRequestObject(method, url ,handleResult){
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = ()=>this.handleRemoteCall(xhttp, handleResult);
-        xhttp.open(method, process.env.SERVER_URL + url, true);
+        xhttp.open(method, SERVER_URL + url, true);
         xhttp.setRequestHeader("Content-Type", "application/json");
         return xhttp;
     }
