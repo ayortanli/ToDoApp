@@ -6,7 +6,7 @@
 
     <groupId>com.ay.todoapp</groupId>
     <artifactId>ToDoAppServer</artifactId>
-    <version>1.0</version>
+    <version>1.0.2</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

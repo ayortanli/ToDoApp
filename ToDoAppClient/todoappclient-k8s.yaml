@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoappclient
+  labels:
+    app: todoappclient
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todoappclient
+  template:
+    metadata:
+      labels:
+        app: todoappclient
+    spec:
+      containers:
+        - name: todoappclient
+          image: ayortanli/todoappclient:1.0.0
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todoappclient-svc
+  labels:
+    app: todoappclient
+spec:
+  selector:
+    app: todoappclient
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  type: ClusterIP

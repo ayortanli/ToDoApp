@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: todoappserver
-          image: ayortanli/todoappserver:1.0
+          image: ayortanli/todoappserver:1.0.1
           ports:
             - containerPort: 8080
 ---
@@ -30,7 +30,7 @@ spec:
   selector:
     app: todoappserver
   ports:
-    - port: 80
+    - port: 8080
       targetPort: 8080
       protocol: TCP
   type: ClusterIP
