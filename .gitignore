@@ -10,3 +10,4 @@ ToDoAppClient/dist/
 ToDoAppClient/package-lock.json
 ToDoAppClientContainer/.idea/
 ToDoAppClientContainer/ToDoAppClientContainer.iml
+.idea/

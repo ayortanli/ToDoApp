@@ -4,7 +4,7 @@ metadata:
   name: todoappingress
 spec:
   rules:
-  - host: todoapp.com    #write this to etc/host
+  - host: todoapp.com    #write this to etc/host, otherwise default ingress config only accept tls based routing
     http:
       paths:
       - path: /
