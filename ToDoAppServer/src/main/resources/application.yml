@@ -8,10 +8,32 @@ spring:
   profiles: dev
 server:
   port: 8090
+spring.jpa.hibernate.ddl-auto: none
+spring.datasource:
+  url: "jdbc:hsqldb:hsql://localhost:9002/todoapp-dev-db"
+  username: "SA"
+  password: "123"
+  driver-class-name: "org.hsqldb.jdbcDriver"
 
+---
+
+spring:
+  profiles: test
+spring.jpa.hibernate.ddl-auto: create-drop
+spring.datasource:
+  url: "jdbc:hsqldb:mem:mymemdb"
+  username: "SA"
+  password: ""
+  driver-class-name: "org.hsqldb.jdbcDriver"
 
 ---
 spring:
   profiles: prod
 server:
   port: 8080
+spring.jpa.hibernate.ddl-auto: none
+spring.datasource:
+  url: "provided_in_deployment"
+  username: "provided_in_deployment"
+  password: "provided_in_deployment"
+  driver-class-name: "org.hsqldb.jdbcDriver"

@@ -44,10 +44,10 @@ public class TodoControllerTest {
         Todo todo = createTodo(1l,"title", "description", TaskState.TODO);
         when(service.insertTodo("title", "description")).thenReturn(todo);
         mockMvc.perform(post("/todos")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(todo)))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.taskId", is(1)))
                 .andExpect(jsonPath("$.taskDescription", is("description")));
         verify(service, times(1)).insertTodo("title","description");
@@ -63,7 +63,7 @@ public class TodoControllerTest {
         when(service.findAll()).thenReturn(todoList);
         mockMvc.perform(get("/todos"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(2)));
         verify(service, times(1)).findAll();
         verifyNoMoreInteractions(service);
@@ -75,7 +75,7 @@ public class TodoControllerTest {
         when(service.find(1l)).thenReturn(todo);
         mockMvc.perform(get("/todos/1"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.taskId", is(1)))
                 .andExpect(jsonPath("$.taskTitle", is("title")))
                 .andExpect(jsonPath("$.taskDescription", is("description")))
@@ -97,10 +97,10 @@ public class TodoControllerTest {
         Todo todo = createTodo(1l,"title", "description", TaskState.TODO);
         when(service.updateTodo(1l, "title", "description")).thenReturn(todo);
         mockMvc.perform(put("/todos/1")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(todo)))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.taskId", is(1)))
                 .andExpect(jsonPath("$.taskTitle", is("title")))
                 .andExpect(jsonPath("$.taskDescription", is("description")));
@@ -115,7 +115,7 @@ public class TodoControllerTest {
         mockMvc.perform(put("/todos/state/1")
                 .content("IN_PROGRESS"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.taskId", is(1)))
                 .andExpect(jsonPath("$.taskTitle", is("title")))
                 .andExpect(jsonPath("$.taskDescription", is("description")))
@@ -133,10 +133,10 @@ public class TodoControllerTest {
         }));
         when(service.archiveTodos(todoIds)).thenReturn(todos);
         mockMvc.perform(put("/todos/archive")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(todoIds)))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(2)));
         verify(service, times(1)).archiveTodos(todoIds);
         verifyNoMoreInteractions(service);

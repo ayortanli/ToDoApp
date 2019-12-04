@@ -1,12 +1,27 @@
 package com.ay.todo;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "Task")
 public class Todo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", updatable = false)
     private Long taskId;
+
+    @Column(name = "TITLE")
     private String taskTitle;
+
+    @Column(name = "DESCRIPTION")
     private String taskDescription;
+
+    @Column(name = "STATE")
+    @Enumerated(EnumType.STRING)
     private TaskState taskState;
 
-    public Todo(){}
+    protected Todo(){}
 
     public Todo(String taskTitle, String description) {
         this.taskTitle = taskTitle;

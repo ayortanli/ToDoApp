@@ -16,7 +16,20 @@ spec:
     spec:
       containers:
         - name: todoappserver
-          image: ayortanli/todoappserver:1.0.1
+          image: ayortanli/todoappserver:1.1.0
+          env:
+            - name: DB_URL
+              value: jdbc:hsqldb:hsql://hsqldb-svc:9000/todoapp-db
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: todoappdbsecret
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: todoappdbsecret
+                  key: password
           ports:
             - containerPort: 8080
 ---

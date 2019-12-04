@@ -25,6 +25,7 @@ public class TodoController {
 
     @GetMapping("/ping")
     public boolean ping(){
+        logger.debug("ping call");
         return true;
     }
 
