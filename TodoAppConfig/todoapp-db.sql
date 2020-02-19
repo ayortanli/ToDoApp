@@ -1,3 +1,4 @@
+--Create our task table
 create table Task (
    ID INTEGER IDENTITY PRIMARY KEY,
    Title VARCHAR(200),
@@ -5,6 +6,7 @@ create table Task (
    State varchar(20)
 );
 
+--Insert some example test data
 insert into Task(title, description, state)
 values ('Read the book ''İnce Memed''', 'Read Yaşar Kemal''s famous book ''İnce Memed''.', 'IN_PROGRESS');
 

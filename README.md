@@ -1,10 +1,10 @@
 # ToDoApp
-ToDoApp is developed to use for Proof of Concept works on scalable environments. 
+ToDoApp is developed to use for Proof of Concept works. 
 It consists of a backend and a frontend projects. 
 In development profile, backend and frontend applications can directly call each other.
-On the other hand; in production profile, environment is implemented as a kubernetes cluster.
+On the other hand; in production profile, environment is planned and implemented as a kubernetes cluster.
 
-The system architecture is as follows:
+The system architecture in production profile is as follows:
 
 ![General Architecture](./images/GeneralArchitecture.png)
 

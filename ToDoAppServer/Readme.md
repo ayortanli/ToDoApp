@@ -1,7 +1,7 @@
 #ToDo App Server
 Spring Boot Based ToDo Application Backend Project
 
-This application is implemented for using in Proof of Concept (POC) works in scalable environment. 
+This application is implemented for using in Proof of Concept (POC) works. 
 It includes basic crud operations for simple ToDo task list.
 
 Service;
@@ -16,8 +16,9 @@ Key Points:
 - Cross-Origin Resource Sharing (CORS) from any domain with any method is allowed in development profile. 
   (In order to test with [frontend](../ToDoAppClient) project)
   See corsConfigurer method in [Application.java](./src/main/java/com/ay/todo/Application.java)
-- Database configuration is given as environment variables inside DockerFile. (By this way, it can also be set in k8s config file) To run application,
-  do not forget to run [sql scripts](../TodoAppConfig/todoapp-db.sql) in your database schema.
+- Database configuration is given inside [DockerFile](./Dockerfile). It is defined as environment variables with its default values. 
+By this way, it can also be set in [k8s config](./todoappserver-k8s.yaml) over environment variables)
+- To run application, do not forget to run [sql scripts](../TodoAppConfig/todoapp-db.sql) in your database schema.
 
 #Installment
 You can run project with `mvn spring-boot:run` command. 
@@ -39,16 +40,15 @@ Finally, deploy your application to k8s with following command:
 ```sh
 $ kubectl create -f todoappserver-k8s.yaml
 ```
-Following, configuration files should also be applied for database access:
-
-- Secret objects for database connection [todoappsecrets-k8s.yaml](../TodoAppConfig/todoappsecrets-k8s.yaml):
+Database username & password are stored as k8s secret object. Following configuration files should be applied for database access:
+- Create secret object for database connection [todoappsecrets-k8s.yaml](../TodoAppConfig/todoappsecrets-k8s.yaml):
 ```sh
 $ kubectl create -f todoappsecrets-k8s.yaml
 ```
 After creating secret object, use related kubectl command to change secrets with real values. Or, as a much more 
 easy option, edit and reapply the config file.
 
-- Database endpoint service creation (Used as database proxy by all services inside k8s cluster)
+- Create database endpoint service (Used as database proxy by all services inside k8s cluster)
 [todoappdb-k8s.yaml](../TodoAppConfig/todoappdb-k8s.yaml)
 ```sh
 $ kubectl create -f todoappdb-k8s.yaml

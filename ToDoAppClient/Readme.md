@@ -14,8 +14,8 @@ Key Points:
 Deployment port is retrieved from environment variable.
 If not defined (i.e. in development profile) 8080 is used. See [server.js](./server/server.js) for details.
 In production profile, 80 is used as server port. (Defined in [Dockerfile](./Dockerfile))
-- As server url; process.env.SERVER_URL environment variable is used. If not defined 
-default development server url is activated. (Which is given in [webpack config file](./webpack.config.js))
+- As backend server url; process.env.SERVER_URL environment variable is used. If not defined 
+default development backend url is activated. (Which is given in [webpack config file](./webpack.config.js))
 
 
 #Installment
