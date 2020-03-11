@@ -4,8 +4,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = env => {
-    console.log('SERVER_URL: ', env.SERVER_URL);
     console.log('NODE_ENV: ', env.NODE_ENV);
+    console.log('SERVER_URL: ', env.SERVER_URL);
 
     return {
         mode: env.NODE_ENV || 'development',

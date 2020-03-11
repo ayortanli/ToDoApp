@@ -10,7 +10,7 @@
     "test": "test",
     "build": "webpack --env.SERVER_URL=. --env.NODE_ENV=production",
     "watch": "webpack --watch",
-    "start": "webpack-dev-server --open --inline --hot"
+    "start": "webpack-dev-server --env --open --inline --hot"
   },
   "repository": {
     "type": "git",

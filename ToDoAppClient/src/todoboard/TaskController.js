@@ -40,6 +40,7 @@ export default class TaskController {
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = ()=>this.handleRemoteCall(xhttp, handleResult);
         xhttp.open(method, SERVER_URL + url, true);
+        xhttp.withCredentials = true;
         xhttp.setRequestHeader("Content-Type", "application/json");
         return xhttp;
     }
@@ -51,11 +52,11 @@ export default class TaskController {
                     handleResult(JSON.parse(xhttp.response));
                 else
                     handleResult();
+            } else if (xhttp.status == 401) {
+                alert("Authentication failed");
             } else {
                 alert("Error Code: HTTP(" + xhttp.status + ")\nError Message: " + xhttp.responseText);
             }
         }
     }
-
-
 }
