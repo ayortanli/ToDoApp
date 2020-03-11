@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,6 +21,7 @@ import javax.sql.DataSource;
 import java.util.Arrays;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(jsr250Enabled = true)
 public class SecurityConfiguration{
 
     Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
@@ -44,9 +46,10 @@ public class SecurityConfiguration{
             // by default uses a Bean by the name of corsConfigurationSource
             if(Arrays.stream(env.getActiveProfiles()).anyMatch(
                     profile -> (profile.equalsIgnoreCase("dev")))) {
-                http.cors().and();
+                http.cors().and()
+                    .csrf().disable();
             }
-            http.authorizeRequests(authorizeRequests ->authorizeRequests.anyRequest().authenticated())
+            http.authorizeRequests().anyRequest().authenticated().and()
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
         }

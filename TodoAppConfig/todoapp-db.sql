@@ -35,6 +35,25 @@ create table authorities (
 create unique index ix_auth_username on authorities (username,authority);
 
 insert into users(username, password, enabled)
+values('spectator','{noop}password', true);
+insert into authorities(username, authority)
+values('spectator','ROLE_TASK_READ');
+
+insert into users(username, password, enabled)
 values('user','{noop}password', true);
 insert into authorities(username, authority)
-values('user','USER');
+values('user','ROLE_TASK_READ');
+insert into authorities(username, authority)
+values('user','ROLE_TASK_MODIFY');
+
+insert into users(username, password, enabled)
+values('admin','{noop}password', true);
+insert into authorities(username, authority)
+values('admin','ROLE_TASK_READ');
+insert into authorities(username, authority)
+values('admin','ROLE_TASK_MODIFY');
+insert into authorities(username, authority)
+values('admin','ROLE_TASK_ARCHIVE');
+
+
+
