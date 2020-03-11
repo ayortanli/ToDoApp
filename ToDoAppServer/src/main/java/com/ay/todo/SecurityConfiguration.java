@@ -10,13 +10,13 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.sql.DataSource;
 import java.util.Arrays;
 
 @EnableWebSecurity
@@ -27,12 +27,12 @@ public class SecurityConfiguration{
     @Autowired
     private Environment env;
 
+    @Autowired
+    private DataSource datasource;
+
     @Bean
     public UserDetailsService userDetailsService() throws Exception {
-        User.UserBuilder users = User.withDefaultPasswordEncoder();
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(users.username("user").password("password").roles("USER").build());
-        //manager.createUser(users.username("admin").password("{noop}password").roles("USER","ADMIN").build());
+        JdbcUserDetailsManager manager = new JdbcUserDetailsManager(datasource);
         return manager;
     }
 
