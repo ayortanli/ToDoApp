@@ -2,15 +2,19 @@ import { hot } from 'react-hot-loader/root';
 import React from "react";
 import TaskSection from "./TaskSection";
 import TaskController from "./TaskController"
+import UserController from "./UserController";
 import { Jumbotron, Container } from "reactstrap";
 import TaskInsert from "./TaskInsert";
+import {UserContext} from "./UserContext";
 
 const TodoBoardHot = class TodoBoard extends React.Component {
 
     constructor(props) {
         super(props);
         this.taskController = new TaskController();
+        this.userController = new UserController();
         this.state = {
+            user: {username:"", roles:[]},
             todoList: [],
             inProgressList: [],
             doneList: [],
@@ -178,7 +182,16 @@ const TodoBoardHot = class TodoBoard extends React.Component {
         });
     }
 
+    onUserRetrieved(user){
+        UserContext.username = user.username;
+        UserContext.roles = user.roles;
+        this.setState({
+            user: user
+        });
+    }
+
     componentDidMount() {
+        this.userController.getUser((resultData)=>this.onUserRetrieved(resultData));
         this.taskController.retrieveAllTasks((resultData)=>this.onRetrieveTasksSuccess(resultData));
     }
 
@@ -190,9 +203,15 @@ const TodoBoardHot = class TodoBoard extends React.Component {
                             onUpdateCommitted={(task, updatedTask)=>this.onUpdateCommitted(task, updatedTask)}
                             onInsertCanceled={()=>this.onInsertCanceled()}/>
                 <Jumbotron className="bg-dark text-center p-2">
-                    <span className="align-top">
-                        <h1 className="text-light">Task List</h1>
-                    </span>
+                    <div className="align-top row">
+                        <div className="col-sm"/>
+                        <div className="col-sm">
+                            <h1 className="text-light">Task List</h1>
+                        </div>
+                        <div className="col-sm">
+                            <h5 className="text-right text-light pr-3">{this.state.user.username}</h5>
+                        </div>
+                    </div>
                     <Container>
                         <div style={{minHeight: '85vh'}} className="row">
                             <div className="col-sm">

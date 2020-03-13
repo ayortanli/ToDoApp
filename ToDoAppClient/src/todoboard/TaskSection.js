@@ -1,6 +1,7 @@
 import React from "react";
 import Task from "./Task";
-import { Jumbotron, CardHeader, Button } from 'reactstrap';
+import { Jumbotron, CardHeader } from 'reactstrap';
+import SecureButton from "./component/SecureButton";
 
 export default class TaskSection extends React.Component {
 
@@ -19,11 +20,12 @@ export default class TaskSection extends React.Component {
 
     renderSectionButton(){
         if(this.props.onArchive!==undefined) {
-            return <Button color="secondary" onClick={()=>this.props.onArchive()} disabled={this.props.taskList.length===0}
-                           className="float-right">Archive</Button>;
+            return <SecureButton color="secondary" onClick={()=>this.props.onArchive()} role="ROLE_TASK_ARCHIVE"
+                                 disabled={this.props.taskList.length===0}
+                           className="float-right">Archive</SecureButton>;
         } else if(this.props.onInsert!==undefined){
-            return <Button color="secondary"  onClick={()=>this.props.onInsert()}
-                           className="float-right">Add</Button>;
+            return <SecureButton color="secondary"  onClick={()=>this.props.onInsert()} role="ROLE_TASK_MODIFY"
+                           className="float-right">Add</SecureButton>;
         }
     }
 

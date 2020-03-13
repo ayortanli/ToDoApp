@@ -1,17 +1,23 @@
+import RemoteObject from "./RemoteObject"
+
 export default class TaskController {
 
+    constructor(){
+        this.remoteObject = new RemoteObject();
+    }
+
     retrieveAllTasks(handleResult){
-        let xhttp = this.createDefaultRequestObject("GET", "/todos", handleResult);
+        let xhttp = this.remoteObject.createDefaultRequestObject("GET", "/todos", handleResult);
         xhttp.send();
     }
 
     deleteTask(taskId, handleResult) {
-        let xhttp = this.createDefaultRequestObject("DELETE", "/todos/"+taskId, handleResult);
+        let xhttp = this.remoteObject.createDefaultRequestObject("DELETE", "/todos/"+taskId, handleResult);
         xhttp.send();
     }
 
     createTask(taskTitle, taskDescription, handleResult) {
-        let xhttp = this.createDefaultRequestObject("POST", "/todos", handleResult);
+        let xhttp = this.remoteObject.createDefaultRequestObject("POST", "/todos", handleResult);
         xhttp.send(JSON.stringify({
                     "taskTitle":taskTitle,
                     "taskDescription":taskDescription
@@ -19,7 +25,7 @@ export default class TaskController {
     }
 
     updateTask(taskId, taskTitle, taskDescription, handleResult) {
-        let xhttp = this.createDefaultRequestObject("PUT", "/todos/"+taskId, handleResult);
+        let xhttp = this.remoteObject.createDefaultRequestObject("PUT", "/todos/"+taskId, handleResult);
         xhttp.send(JSON.stringify({
             "taskTitle":taskTitle,
             "taskDescription":taskDescription
@@ -27,36 +33,12 @@ export default class TaskController {
     }
 
     updateTaskState(taskId, newState, handleResult) {
-        let xhttp = this.createDefaultRequestObject("PUT", "/todos/state/"+taskId, handleResult);
+        let xhttp = this.remoteObject.createDefaultRequestObject("PUT", "/todos/state/"+taskId, handleResult);
         xhttp.send(newState);
     }
 
     archiveCompletedTasks(taskList, handleResult) {
-        let xhttp = this.createDefaultRequestObject("PUT", "/todos/archive", handleResult);
+        let xhttp = this.remoteObject.createDefaultRequestObject("PUT", "/todos/archive", handleResult);
         xhttp.send(JSON.stringify(taskList.map(task => task.taskId)));
-    }
-
-    createDefaultRequestObject(method, url ,handleResult){
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = ()=>this.handleRemoteCall(xhttp, handleResult);
-        xhttp.open(method, SERVER_URL + url, true);
-        xhttp.withCredentials = true;
-        xhttp.setRequestHeader("Content-Type", "application/json");
-        return xhttp;
-    }
-
-    handleRemoteCall(xhttp, handleResult){
-        if (xhttp.readyState == 4) {
-            if(xhttp.status == 200) {
-                if(xhttp.responseText !== '')
-                    handleResult(JSON.parse(xhttp.response));
-                else
-                    handleResult();
-            } else if (xhttp.status == 401) {
-                alert("Authentication failed");
-            } else {
-                alert("Error Code: HTTP(" + xhttp.status + ")\nError Message: " + xhttp.responseText);
-            }
-        }
     }
 }

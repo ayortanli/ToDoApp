@@ -1,5 +1,7 @@
 import React from "react";
-import { Card, CardHeader, CardText, CardBody, CardLink, Button } from 'reactstrap';
+import { Card, CardHeader, CardText, CardBody, CardLink } from 'reactstrap';
+import SecureButton from "./component/SecureButton";
+import SecureCardLink from "./component/SecureCardLink";
 
 export default class Task extends React.Component {
 
@@ -10,8 +12,8 @@ export default class Task extends React.Component {
     renderHeader(){
         return  <CardHeader className="row pb-1">
                     <div className="col-2 pl-0">
-                        <Button color="secondary" size="sm"
-                                onClick={() => this.props.onUpdate()}>Edit</Button>
+                        <SecureButton color="secondary" size="sm" role="ROLE_TASK_MODIFY"
+                                onClick={() => this.props.onUpdate()}>Edit</SecureButton>
                     </div>
                     <div className="col-8">
                         <h5 className="text-center">{this.props.data.taskTitle}</h5>
@@ -24,7 +26,7 @@ export default class Task extends React.Component {
 
     renderCloseButton(){
         if(this.props.data.taskState==="TODO")
-            return <Button close color="dark" size="xs"
+            return <SecureButton close color="dark" size="xs" role="ROLE_TASK_MODIFY"
                            onClick={() => this.props.onDelete()}
                            className="float-right py-0 px-1"/>;
         return "";
@@ -32,14 +34,14 @@ export default class Task extends React.Component {
 
     renderBackButton(){
         if(this.props.data.taskState!=="TODO"){
-            return <CardLink href="#" onClick={()=>this.props.onPrevState()} className="col-sm-6 m-0">&lt;&lt;</CardLink>;
+            return <SecureCardLink href="#" role="ROLE_TASK_MODIFY" onClick={()=>this.props.onPrevState()} className="col-sm-6 m-0">&lt;&lt;</SecureCardLink>;
         }
         return <span className="col-sm-6"></span>;
     }
 
     renderForwardButton(){
         if(this.props.data.taskState!=="DONE"){
-            return <CardLink href="#" onClick={()=>this.props.onNextState()} className="col-sm-6 m-0">&gt;&gt;</CardLink>;
+            return <SecureCardLink href="#" role="ROLE_TASK_MODIFY" onClick={()=>this.props.onNextState()} className="col-sm-6 m-0">&gt;&gt;</SecureCardLink>;
         }
         return <span className="col-sm-6"></span>;
 
