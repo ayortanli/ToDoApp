@@ -1,9 +1,9 @@
 import { hot } from 'react-hot-loader/root';
 import React from "react";
 import TaskSection from "./TaskSection";
-import TaskController from "./TaskController"
-import UserController from "./UserController";
-import { Jumbotron, Container } from "reactstrap";
+import TaskController from "./remote/TaskController"
+import UserController from "./remote/UserController";
+import { Jumbotron, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import TaskInsert from "./TaskInsert";
 import {UserContext} from "./UserContext";
 
@@ -14,7 +14,8 @@ const TodoBoardHot = class TodoBoard extends React.Component {
         this.taskController = new TaskController();
         this.userController = new UserController();
         this.state = {
-            user: {username:"", roles:[]},
+            username: "",
+            userMenuOpened: false,
             todoList: [],
             inProgressList: [],
             doneList: [],
@@ -186,8 +187,19 @@ const TodoBoardHot = class TodoBoard extends React.Component {
         UserContext.username = user.username;
         UserContext.roles = user.roles;
         this.setState({
-            user: user
+            username: user.username
         });
+    }
+
+    onUserMenuToggled(){
+        let curr = this.state.userMenuOpened;
+        this.setState({
+            userMenuOpened:!curr
+        });
+    }
+
+    logout(){
+        this.userController.logout();
     }
 
     componentDidMount() {
@@ -209,7 +221,14 @@ const TodoBoardHot = class TodoBoard extends React.Component {
                             <h1 className="text-light">Task List</h1>
                         </div>
                         <div className="col-sm">
-                            <h5 className="text-right text-light pr-3">{this.state.user.username}</h5>
+                            <Dropdown className="float-right mr-3" isOpen={this.state.userMenuOpened} toggle={()=>this.onUserMenuToggled()}>
+                                <DropdownToggle caret className="py-0">
+                                    <span className="text-light">{this.state.username}&nbsp;&nbsp;</span>
+                                </DropdownToggle>
+                                <DropdownMenu className="p-0">
+                                    <DropdownItem onClick={()=> this.logout()}>Logout</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
                         </div>
                     </div>
                     <Container>

@@ -10,4 +10,8 @@ export default class UserController {
         let xhttp = this.remoteObject.createDefaultRequestObject("GET", "/user", handleResult);
         xhttp.send();
     }
+
+    logout(){
+        location.href = SERVER_URL+"/logout";
+    }
 }
