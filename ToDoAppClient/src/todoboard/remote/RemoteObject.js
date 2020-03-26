@@ -1,3 +1,4 @@
+
 export default class RemoteObject {
 
     createDefaultRequestObject(method, url ,handleResult){
@@ -6,6 +7,8 @@ export default class RemoteObject {
         xhttp.open(method, SERVER_URL + url, true);
         xhttp.withCredentials = true;
         xhttp.setRequestHeader("Content-Type", "application/json");
+        if(method==="POST" || method ==="PUT" || method ==="DELETE")
+            xhttp.setRequestHeader("X-XSRF-TOKEN",this.getCsrfToken());
         return xhttp;
     }
 
@@ -24,5 +27,13 @@ export default class RemoteObject {
                 alert("Error Code: HTTP(" + xhttp.status + ")\nError Message: " + xhttp.responseText);
             }
         }
+    }
+
+    getCsrfToken(){
+        let token = document.cookie;
+        token = token.slice(token.indexOf("XSRF-TOKEN=")+11);
+        if(token.indexOf(";")>-1)
+            token = token.slice(0, token.indexOf(";"));
+        return token;
     }
 }

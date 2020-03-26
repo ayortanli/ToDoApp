@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -46,10 +47,10 @@ public class SecurityConfiguration{
             // by default uses a Bean by the name of corsConfigurationSource
             if(Arrays.stream(env.getActiveProfiles()).anyMatch(
                     profile -> (profile.equalsIgnoreCase("dev")))) {
-                http.cors().and()
-                    .csrf().disable();
+                http.cors();
             }
             http.authorizeRequests().anyRequest().authenticated().and()
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
         }
@@ -62,7 +63,7 @@ public class SecurityConfiguration{
                 final CorsConfiguration configuration = new CorsConfiguration();
                 configuration.setAllowedOrigins(Arrays.asList("*"));
                 configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
-                configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+                configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type", "X-XSRF-TOKEN"));
                 // setAllowCredentials(true) is important, otherwise:
                 // The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
                 configuration.setAllowCredentials(true);
