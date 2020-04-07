@@ -16,6 +16,9 @@ If not defined (i.e. in development profile) 8080 is used. See [server.js](./ser
 In production profile, 80 is used as server port. (Defined in [Dockerfile](./Dockerfile))
 - As backend server url; process.env.SERVER_URL environment variable is used. If not defined 
 default development backend url is activated. (Which is given in [webpack config file](./webpack.config.js))
+- run `npm start` to run webpack-dev-server in development mode. (webpack-dev-server is configured in hot mode which directly update client without refresh 
+when code changes happened.)
+- run `npm run build` for production packaging.
 
 
 #Installment

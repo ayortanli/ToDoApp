@@ -42,9 +42,22 @@ public class SecurityConfiguration{
     @Configuration
     public class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
+        /**
+         * Note about CSRF configuration:
+         * CSRF token should be send in header when calling rest services. To retrieve token in client,
+         * server should send token as cookie in each request but this is not a security problem. Read the following:
+         * "It is not adequate for CSRF protection to rely on a cookie being sent back to the server
+         * because the browser will automatically send it even if you are not in a page loaded
+         * from your application (a Cross Site Scripting attack, otherwise known as XSS).
+         * The header is not automatically sent, so the origin is under control.
+         * You might see that in our application the CSRF token is sent to the client as a cookie,
+         * so we will see it being sent back automatically by the browser, but it is the header that provides the protection."
+         * from https://spring.io/guides/tutorials/spring-security-and-angular-js/
+         */
+
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            // by default uses a Bean by the name of corsConfigurationSource
+            // for cors configuration, spring uses a default Bean by the name of corsConfigurationSource
             if(Arrays.stream(env.getActiveProfiles()).anyMatch(
                     profile -> (profile.equalsIgnoreCase("dev")))) {
                 http.cors();

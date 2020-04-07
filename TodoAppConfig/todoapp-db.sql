@@ -34,6 +34,8 @@ create table authorities (
 );
 create unique index ix_auth_username on authorities (username,authority);
 
+
+--Role names should be start with ROLE_ due to spring security default configuration
 insert into users(username, password, enabled)
 values('spectator','{noop}password', true);
 insert into authorities(username, authority)

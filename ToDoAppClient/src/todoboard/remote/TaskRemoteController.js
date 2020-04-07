@@ -1,6 +1,6 @@
 import RemoteObject from "./RemoteObject"
 
-export default class TaskController {
+export default class TaskRemoteController {
 
     constructor(){
         this.remoteObject = new RemoteObject();

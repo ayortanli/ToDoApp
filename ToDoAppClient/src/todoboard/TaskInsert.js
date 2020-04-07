@@ -1,5 +1,5 @@
 import React from "react";
-import TaskController from "./remote/TaskController";
+import TaskRemoteController from "./remote/TaskController";
 import {
     Button,
     Modal,
@@ -15,7 +15,7 @@ export default class TaskInsert extends React.Component {
 
     constructor(props){
         super(props);
-        this.taskController = new TaskController();
+        this.taskController = new TaskRemoteController();
         this.state= {
             taskTitle: "",
             taskDescription: ""

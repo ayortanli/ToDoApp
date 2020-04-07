@@ -1,6 +1,6 @@
 import RemoteObject from "./RemoteObject"
 
-export default class UserController {
+export default class UserRemoteController {
 
     constructor(){
         this.remoteObject = new RemoteObject();

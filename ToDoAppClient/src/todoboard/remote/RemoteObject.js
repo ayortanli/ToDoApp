@@ -1,6 +1,16 @@
 
 export default class RemoteObject {
 
+    /**
+     * Prepares xhr object before sending.
+     * Also add CSRF token to header.
+     * From spring documentation: 'CSRF token is intentionally excluded from GET to avoid token leakage to a 3rd party'
+     * Hence; only post, put and delete requests will contain CSRF token
+     * @param method type of http method
+     * @param url server request address
+     * @param handleResult handler method after result retrieved
+     * @returns {XMLHttpRequest} object used for remote call
+     */
     createDefaultRequestObject(method, url ,handleResult){
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = ()=>this.handleRemoteCall(xhttp, handleResult);
@@ -12,6 +22,11 @@ export default class RemoteObject {
         return xhttp;
     }
 
+    /**
+     * Default remote call result handler method
+     * @param xhttp response object
+     * @param handleResult operation specific response handler method to be called
+     */
     handleRemoteCall(xhttp, handleResult){
         if (xhttp.readyState == 4) {
             if(xhttp.status == 200) {
@@ -29,6 +44,10 @@ export default class RemoteObject {
         }
     }
 
+    /**
+     * extract and return CSRF token from session cookie
+     * @returns {string} CSRF token
+     */
     getCsrfToken(){
         let token = document.cookie;
         token = token.slice(token.indexOf("XSRF-TOKEN=")+11);

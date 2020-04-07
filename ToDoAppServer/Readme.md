@@ -16,6 +16,7 @@ Key Points:
 - Cross-Origin Resource Sharing (CORS) from any domain with any method is allowed in development profile. 
   (In order to test with [frontend](../ToDoAppClient) project)
   See corsConfigurer method in [Application.java](./src/main/java/com/ay/todo/Application.java)
+- CSRF protection is done with using CookieCsrfTokenRepository. Details can be found in [Application.java](./src/main/java/com/ay/todo/Application.java)
 - Database configuration is given inside [DockerFile](./Dockerfile). It is defined as environment variables with its default values. 
 By this way, it can also be set in [k8s config](./todoappserver-k8s.yaml) over environment variables)
 - To run application, do not forget to run [sql scripts](../TodoAppConfig/todoapp-db.sql) in your database schema.

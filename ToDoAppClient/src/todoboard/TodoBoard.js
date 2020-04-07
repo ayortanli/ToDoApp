@@ -1,8 +1,8 @@
 import { hot } from 'react-hot-loader/root';
 import React from "react";
 import TaskSection from "./TaskSection";
-import TaskController from "./remote/TaskController"
-import UserController from "./remote/UserController";
+import TaskRemoteController from "./remote/TaskController"
+import UserRemoteController from "./remote/UserController";
 import { Jumbotron, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import TaskInsert from "./TaskInsert";
 import {UserContext} from "./UserContext";
@@ -11,8 +11,8 @@ const TodoBoardHot = class TodoBoard extends React.Component {
 
     constructor(props) {
         super(props);
-        this.taskController = new TaskController();
-        this.userController = new UserController();
+        this.taskRemoteController = new TaskRemoteController();
+        this.userRemoteController = new UserRemoteController();
         this.state = {
             username: "",
             userMenuOpened: false,
@@ -44,6 +44,14 @@ const TodoBoardHot = class TodoBoard extends React.Component {
         });
     }
 
+
+    onUpdateClicked(task) {
+        this.updatedTask = task;
+        this.setState({
+            isInserting: true
+        });
+    }
+
     onUpdateCommitted(task, updatedTask){
         this.updateTaskOnBoard(task, updatedTask, false);
     }
@@ -51,21 +59,13 @@ const TodoBoardHot = class TodoBoard extends React.Component {
     onDelete(taskId){
         let result = confirm("Are your sure?");
         if(result)
-            this.taskController.deleteTask(taskId, (resultData)=>this.onDeleteSuccess(taskId, resultData));
+            this.taskRemoteController.deleteTask(taskId, (resultData)=>this.onDeleteSuccess(taskId, resultData));
     }
 
     onArchive(){
         let result = confirm("Are your sure you want to archive all completed tasks?");
         if(result)
-            this.taskController.archiveCompletedTasks(this.state.doneList, (resultData)=>this.onArchiveSuccess(resultData));
-    }
-
-
-    onUpdateClicked(task) {
-        this.updatedTask = task;
-        this.setState({
-            isInserting: true
-        });
+            this.taskRemoteController.archiveCompletedTasks(this.state.doneList, (resultData)=>this.onArchiveSuccess(resultData));
     }
 
     onUpdateStateByDrag(taskId, newState){
@@ -75,7 +75,7 @@ const TodoBoardHot = class TodoBoard extends React.Component {
     }
 
     onUpdateState(task, newState){
-        this.taskController.updateTaskState(task.taskId, newState, (resultData)=>this.onUpdateSuccess(task, resultData));
+        this.taskRemoteController.updateTaskState(task.taskId, newState, (resultData)=>this.onUpdateSuccess(task, resultData));
     }
 
     onDeleteSuccess(taskId, resultData){
@@ -199,12 +199,12 @@ const TodoBoardHot = class TodoBoard extends React.Component {
     }
 
     logout(){
-        this.userController.logout();
+        this.userRemoteController.logout();
     }
 
     componentDidMount() {
-        this.userController.getUser((resultData)=>this.onUserRetrieved(resultData));
-        this.taskController.retrieveAllTasks((resultData)=>this.onRetrieveTasksSuccess(resultData));
+        this.userRemoteController.getUser((resultData)=>this.onUserRetrieved(resultData));
+        this.taskRemoteController.retrieveAllTasks((resultData)=>this.onRetrieveTasksSuccess(resultData));
     }
 
     render(){
