@@ -1,0 +1,18 @@
+#URL's that are public will be defined in this ingress so they can directly accessed by users without nginx authentication check
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: todoapppublicingress
+  annotations:
+    #spring security not like nginx added parameters in login page so clear them
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^/login$ /login? break;
+spec:
+  rules:
+  - host: todoapp.com    #write this to etc/host, otherwise default ingress config only accept tls based routing
+    http:
+      paths:
+      - path: /login
+        backend:
+          serviceName: todoappserver-svc
+          servicePort: 8080

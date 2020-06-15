@@ -15,6 +15,7 @@ spring.datasource:
   username: "SA"
   password: "123"
   driver-class-name: "org.hsqldb.jdbcDriver"
+spring.session.store-type: none
 
 ---
 
@@ -26,6 +27,7 @@ spring.datasource:
   username: "SA"
   password: ""
   driver-class-name: "org.hsqldb.jdbcDriver"
+spring.session.store-type: none
 
 ---
 
@@ -39,3 +41,7 @@ spring.datasource:
   username: "provided_in_deployment"
   password: "provided_in_deployment"
   driver-class-name: "org.hsqldb.jdbcDriver"
+spring.session.store-type: redis
+spring.redis:
+  host: "provided_in_deployment"
+  port: 0000

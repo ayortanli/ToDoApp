@@ -1,5 +1,5 @@
 import React from "react";
-import TaskRemoteController from "./remote/TaskController";
+import TaskRemoteController from "./remote/TaskRemoteController";
 import {
     Button,
     Modal,

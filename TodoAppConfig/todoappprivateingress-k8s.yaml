@@ -1,0 +1,29 @@
+#URL's that are secured will be defined in this ingress so nginx will check authentication before in each request
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: todoappingress
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: http://todoappserver-svc.default.svc.cluster.local:8080/auth
+    nginx.ingress.kubernetes.io/auth-signin: http://$host/login
+spec:
+  rules:
+  - host: todoapp.com    #write this to etc/host, otherwise default ingress config only accept tls based routing
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: todoappclient-svc
+          servicePort: 80 
+      - path: /todos
+        backend:
+          serviceName: todoappserver-svc
+          servicePort: 8080
+      - path: /user
+        backend:
+          serviceName: todoappserver-svc
+          servicePort: 8080
+      - path: /logout
+        backend:
+          serviceName: todoappserver-svc
+          servicePort: 8080

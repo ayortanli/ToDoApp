@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: todoappserver
-          image: ayortanli/todoappserver:1.1.0
+          image: ayortanli/todoappserver:1.1.1
           env:
             - name: DB_URL
               value: jdbc:hsqldb:hsql://hsqldb-svc:9000/todoapp-db
@@ -30,6 +30,10 @@ spec:
                 secretKeyRef:
                   name: todoappdbsecret
                   key: password
+            - name: REDIS_URL
+              value: redis-svc
+            - name: REDIS_PORT
+              value: "6000"
           ports:
             - containerPort: 8080
 ---

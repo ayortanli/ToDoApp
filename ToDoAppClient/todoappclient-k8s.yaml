@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: todoappclient
-          image: ayortanli/todoappclient:1.0.0
+          image: ayortanli/todoappclient:1.0.1
           ports:
             - containerPort: 80
 ---

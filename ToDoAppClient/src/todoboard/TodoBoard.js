@@ -1,8 +1,8 @@
 import { hot } from 'react-hot-loader/root';
 import React from "react";
 import TaskSection from "./TaskSection";
-import TaskRemoteController from "./remote/TaskController"
-import UserRemoteController from "./remote/UserController";
+import TaskRemoteController from "./remote/TaskRemoteController"
+import UserRemoteController from "./remote/UserRemoteController";
 import { Jumbotron, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import TaskInsert from "./TaskInsert";
 import {UserContext} from "./UserContext";

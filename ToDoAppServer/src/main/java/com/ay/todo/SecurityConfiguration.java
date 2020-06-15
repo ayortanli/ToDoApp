@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,7 +15,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -40,7 +44,8 @@ public class SecurityConfiguration{
     }
 
     @Configuration
-    public class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+    @Order(1)
+    public class RestWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
         /**
          * Note about CSRF configuration:
@@ -61,11 +66,26 @@ public class SecurityConfiguration{
             if(Arrays.stream(env.getActiveProfiles()).anyMatch(
                     profile -> (profile.equalsIgnoreCase("dev")))) {
                 http.cors();
+                //use default spring login in development mode
+                http.formLogin(Customizer.withDefaults());
+            } else {
+                //In real scenario, form login does not necessary in restful api services
+                //I enable it here because i will use this service in place of authenticaton service in k8s cluster
+                //default success url is redirected to root in production (necessary in k8s cluster)
+                http.formLogin().defaultSuccessUrl("/",true);
             }
             http.authorizeRequests().anyRequest().authenticated().and()
                 .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
-                .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
+
+            //if not explicitly defined, spring will return 302 when request comes from browser
+            //Nginx ingress auth_url only accept 4xx codes (for unauthorized) and 2xx codes(when authorized)
+            //otherwise returns 500. /auth url will be used for Authentication check in nginx ingress
+            //Edit: When Http401 returned, nginx can redirect to auth-signin url defined in ingress.
+            //      When Http403 returned, nginx shows 403 to the user and does not redirect.
+            http.exceptionHandling()
+                    .defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
+                            new AntPathRequestMatcher("/auth/**"));
         }
 
         @Bean
@@ -87,5 +107,4 @@ public class SecurityConfiguration{
             return null;
         }
     }
-
 }
